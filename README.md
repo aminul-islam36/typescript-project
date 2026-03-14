@@ -1,6 +1,6 @@
-# TypeScript + Tailwind CSS + MongoDB Task Manager
+# TypeScript + React + Tailwind CSS Task Manager
 
-A modern full-stack task management web app with CRUD operations, filtering, and search functionality built with TypeScript, Tailwind CSS, and MongoDB.
+A modern task management web app built with React, TypeScript, and Tailwind CSS featuring CRUD operations, filtering, and search functionality.
 
 ## Features
 
@@ -11,7 +11,8 @@ A modern full-stack task management web app with CRUD operations, filtering, and
 - **Filter**: Filter tasks by status
 - **Search**: Search tasks by title or description
 - **Responsive Design**: Works on all screen sizes
-- **MongoDB Integration**: Persistent data storage with MongoDB Atlas
+- **Persistent Storage**: Data saved in browser localStorage
+- **5 Demo Tasks**: Pre-loaded with sample data
 
 ## Pages
 
@@ -20,6 +21,15 @@ A modern full-stack task management web app with CRUD operations, filtering, and
 - **About Us**: Company information
 - **Single Task**: Detailed task view with edit functionality
 
+## Tech Stack
+
+- React 18
+- TypeScript
+- Tailwind CSS
+- React Router
+- Vite
+- LocalStorage API
+
 ## Setup
 
 ```bash
@@ -27,14 +37,6 @@ npm install
 ```
 
 ## Development
-
-Start the backend server:
-
-```bash
-npm run server
-```
-
-In another terminal, start the frontend:
 
 ```bash
 npm run dev
@@ -48,15 +50,42 @@ Open http://localhost:5173 in your browser.
 npm run build
 ```
 
-## Tech Stack
+## Project Structure
 
-- TypeScript
-- Tailwind CSS
-- Vite
-- MongoDB Atlas
-- Express.js
-- Node.js
+```
+src/
+├── api/
+│   └── taskApi.ts          # API layer for task operations
+├── components/
+│   └── Header.tsx          # Navigation header component
+├── pages/
+│   ├── HomePage.tsx        # Dashboard page
+│   ├── TasksPage.tsx       # Task list and creation
+│   ├── SingleTaskPage.tsx  # Task detail and edit
+│   └── AboutPage.tsx       # About page
+├── types.ts                # TypeScript interfaces
+├── App.tsx                 # Main app component
+├── main.tsx                # App entry point
+└── style.css               # Tailwind CSS imports
+```
 
-## Database
+## Features in Detail
 
-The app connects to MongoDB Atlas with 5 pre-seeded demo tasks. The database is automatically seeded when the server starts.
+### CRUD Operations
+
+- Create tasks with title, description, and priority levels
+- Read all tasks or individual task details
+- Update task information and status
+- Delete tasks with confirmation
+
+### Filtering & Search
+
+- Filter tasks by status (All, Pending, In Progress, Completed)
+- Search tasks by title or description
+- Real-time filtering and search results
+
+### Data Persistence
+
+- All data stored in browser localStorage
+- Automatic seeding with 5 demo tasks on first load
+- Data persists across browser sessions

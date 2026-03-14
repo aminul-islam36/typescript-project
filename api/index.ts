@@ -3,8 +3,8 @@ import cors from "cors";
 import { MongoClient, ObjectId } from "mongodb";
 
 const app = express();
-const PORT = 3000;
 const uri =
+  process.env.MONGODB_URI ||
   "mongodb+srv://TESTAPI:i1X9GsOAbvBKiyLw@cluster0.ty9bkxj.mongodb.net/?appName=Cluster0";
 const client = new MongoClient(uri);
 
@@ -62,6 +62,15 @@ async function getDB() {
   return db;
 }
 
+app.get("/api/health", async (req, res) => {
+  try {
+    await getDB();
+    res.json({ status: "ok", database: "connected" });
+  } catch {
+    res.status(500).json({ status: "error", database: "disconnected" });
+  }
+});
+
 // GET all tasks — supports ?search=, ?status=, ?priority=
 app.get("/api/tasks", async (req, res) => {
   try {
@@ -88,7 +97,6 @@ app.get("/api/tasks", async (req, res) => {
   }
 });
 
-// GET single task
 app.get("/api/tasks/:id", async (req, res) => {
   try {
     const db = await getDB();
@@ -101,7 +109,6 @@ app.get("/api/tasks/:id", async (req, res) => {
   }
 });
 
-// POST create task
 app.post("/api/tasks", async (req, res) => {
   try {
     const db = await getDB();
@@ -120,7 +127,6 @@ app.post("/api/tasks", async (req, res) => {
   }
 });
 
-// PUT update task
 app.put("/api/tasks/:id", async (req, res) => {
   try {
     const db = await getDB();
@@ -137,7 +143,6 @@ app.put("/api/tasks/:id", async (req, res) => {
   }
 });
 
-// DELETE task
 app.delete("/api/tasks/:id", async (req, res) => {
   try {
     const db = await getDB();
@@ -150,22 +155,4 @@ app.delete("/api/tasks/:id", async (req, res) => {
   }
 });
 
-app.get("/api/health", async (req, res) => {
-  try {
-    await getDB();
-    res.json({ status: "ok", database: "connected" });
-  } catch {
-    res.status(500).json({ status: "error", database: "disconnected" });
-  }
-});
-
-getDB()
-  .then(() => {
-    app.listen(PORT, () =>
-      console.log(`Server running on http://localhost:${PORT}`),
-    );
-  })
-  .catch((err) => {
-    console.error("MongoDB connection failed:", err);
-    process.exit(1);
-  });
+export default app;
